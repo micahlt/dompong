@@ -3,7 +3,6 @@
   "description": "A retro pong clone built with only DOM elements",
   "version": "1.0.0",
   "main": "index.html",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,6 +24,7 @@
   },
   "homepage": "https://github.com/micahlt/dompong#readme",
   "dependencies": {
-    "crabby-grab": "^1.0.5"
+    "crabby-grab": "^1.0.5",
+    "parcel": "^1.12.4"
   }
 }
