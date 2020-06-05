@@ -1,0 +1,104 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: black;
+  color: #2be802;
+  font-family: 'VT323', sans-serif;
+  font-weight: normal;
+  overflow: hidden;
+}
+
+h1 {
+  opacity: 0;
+  font-size: 4em;
+  animation-name: fadein;
+  animation-delay: 1s;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  user-select: none;
+  font-weight: normal;
+}
+
+.div-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.in-game {
+  opacity: 0;
+  transition: 0.2s;
+  transition-delay: 0.5s;
+}
+
+.large-button {
+  opacity: 0;
+  box-sizing: border-box;
+  background-color: #2be802;
+  padding: 10px 20px 10px 20px;
+  color: black;
+  text-decoration: none;
+  font-size: 1em;
+  animation-name: fadein;
+  animation-delay: 1.3s;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.7) inset;
+  transition: 0.1s;
+}
+
+.second-button {
+  margin-left: 23px;
+}
+
+.large-button:hover {
+  box-shadow: 0px -6px 0px rgba(255, 255, 255, 0.7) inset;
+  transition: 0.1s;
+}
+
+.large-button:active {
+  box-shadow: 0px calc(-20px - 1em) 0px rgba(255, 255, 255, 1) inset;
+}
+
+#ball {
+  height: 1.4em;
+  width: 1.4em;
+  background-color: #2be802;
+  position: absolute;
+  transition: 0.3s;
+  transition-delay: 1s;
+}
+
+.on-menu {
+  opacity: 0;
+}
+
+.game-started {
+  opacity: 1;
+}
+
+#paddle {
+  height: 1.4em;
+  width: 7em;
+  background-color: #2be802;
+  position: absolute;
+  transition: 0.3s;
+  transition-delay: 1s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
