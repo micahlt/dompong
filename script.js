@@ -4,12 +4,14 @@ let ball_t = ball.style.top;
 let ball_l = ball.style.left;
 let paddle = grab.id('paddle');
 let mouse_x = 0;
-var em;
+let em;
+let beep = grab.id('beep');
 grab.class('large-button', 0).addEventListener('click', () => {
   play();
-})
+});
 document.onmousemove = setMouseX;
 let play = () => {
+  beep.play();
   grab.class('home-menu', 0).classList.add("in-game");
   paddle.classList.replace("on-menu", "game-started");
   ball.classList.replace("on-menu", "game-started");
@@ -32,6 +34,7 @@ let play = () => {
       paddle.style.left = (mouse_x - (3.5 * em)) + "px";
       // console.log("Top: " + ball_t + " Left: " + ball_l);
       if (isCollide(ball, paddle)) {
+        beep.play();
         window.clearInterval(loop);
       }
     }, 20);
