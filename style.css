@@ -92,7 +92,7 @@ h1 {
 
 #paddle {
   height: 1.4em;
-  width: 7em;
+  width: 9em;
   background-color: #2be802;
   position: absolute;
   transition: 0.3s;
@@ -128,6 +128,17 @@ h1 {
   height: 100vh;
   width: 1.4em;
   background-color: #2be802;
+  transition: 0.3s;
+  transition-delay: 1s;
+}
+
+#score {
+  color: #2be802;
+  font-size: 3em;
+  position: absolute;
+  top: 0.6em;
+  left: 0.7em;
+  user-select: none;
   transition: 0.3s;
   transition-delay: 1s;
 }

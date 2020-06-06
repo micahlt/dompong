@@ -13,6 +13,8 @@ let direction = "bottomRight";
 let previousDirection = null;
 let em;
 let beep = grab.id('beep');
+let scoreEl = grab.id('score');
+let score;
 let megalovania = grab.id('soundtrack');
 grab.class('large-button', 0).addEventListener('click', () => {
   play();
@@ -22,12 +24,14 @@ window.onload = () => {
   megalovania.play();
 }
 let play = () => {
-  speed_x = 3;
-  speed_y = 3;
+  score = 0;
+  speed_x = 1.5;
+  speed_y = 1.5;
   ball.style.top = "100px";
   ball.style.left = "100px";
   playSound(beep);
   grab.class('home-menu', 0).classList.add("in-game");
+  scoreEl.classList.replace("on-menu", "game-started");
   paddle.classList.replace("on-menu", "game-started");
   ball.classList.replace("on-menu", "game-started");
   leftWall.classList.replace("on-menu", "game-started");
@@ -47,6 +51,8 @@ let play = () => {
         move(direction);
         if (isCollide(ball, paddle)) {
           playSound(beep);
+          score++;
+          renderScore();
           speed_x++;
           speed_y++;
           speed_y = speed_y / 1.1;
@@ -81,7 +87,7 @@ let play = () => {
           gameOver();
         }
       },
-      10);
+      6);
   }, 1000)
 }
 
@@ -93,6 +99,10 @@ function getEms() {
   var div = grab.id('testDiv');
   div.style.height = '1em';
   return (em = div.offsetHeight);
+}
+
+function renderScore() {
+  scoreEl.innerText = score;
 }
 
 function move(dir) {
@@ -127,6 +137,7 @@ function gameOver() {
   paddle.style.transitionDelay = "1s";
   paddle.style.transition = "0.3s";
   grab.class('home-menu', 0).classList.add("in-game");
+  scoreEl.classList.replace("game-started", "on-menu");
   paddle.classList.replace("game-started", "on-menu");
   ball.classList.replace("game-started", "on-menu");
   leftWall.classList.replace("game-started", "on-menu");
@@ -135,6 +146,8 @@ function gameOver() {
   megalovania.pause();
   grab.class('home-menu', 0).classList.remove("in-game");
   window.setTimeout(function() {
+    score = 0;
+    renderScore();
     megalovania.currentTime = 0;
     megalovania.play();
   }, 2000)
