@@ -31,6 +31,7 @@ let play = () => {
   ball.style.left = "100px";
   playSound(beep);
   grab.class('home-menu', 0).classList.add("in-game");
+  grab.id('html').style.cursor = 'none';
   scoreEl.classList.replace("on-menu", "game-started");
   paddle.classList.replace("on-menu", "game-started");
   ball.classList.replace("on-menu", "game-started");
@@ -51,10 +52,9 @@ let play = () => {
         move(direction);
         if (isCollide(ball, paddle)) {
           playSound(beep);
-          score++;
           renderScore();
-          speed_x++;
-          speed_y++;
+          speed_x += 0.5;
+          speed_y += 0.5;
           speed_y = speed_y / 1.1;
           if (direction == "bottomRight") {
             direction = "topRight";
@@ -89,6 +89,10 @@ let play = () => {
       },
       6);
   }, 1000)
+  let scoreInterval = window.setInterval(function() {
+    score++;
+    renderScore();
+  }, 1000)
 }
 
 function setMouseX(event) {
@@ -102,7 +106,7 @@ function getEms() {
 }
 
 function renderScore() {
-  scoreEl.innerText = score;
+  scoreEl.innerText = score + '"';
 }
 
 function move(dir) {
@@ -132,6 +136,7 @@ function move(dir) {
 }
 
 function gameOver() {
+  grab.id('html').style.cursor = 'initial';
   ball.style.transitionDelay = "1s";
   ball.style.transition = "0.3s";
   paddle.style.transitionDelay = "1s";
