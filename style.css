@@ -30,6 +30,12 @@ h1 {
   text-align: center;
 }
 
+.home-menu {
+  opacity: 1;
+  transition: 0.2s;
+  transition-delay: 1s;
+}
+
 .in-game {
   opacity: 0;
   transition: 0.2s;

@@ -7,8 +7,8 @@ let leftWall = grab.id('leftWall');
 let topWall = grab.id('topWall');
 let rightWall = grab.id('rightWall');
 let mouse_x = 0;
-let speed_x = 3;
-let speed_y = 3;
+let speed_x;
+let speed_y;
 let direction = "bottomRight";
 let previousDirection = null;
 let em;
@@ -22,7 +22,11 @@ window.onload = () => {
   megalovania.play();
 }
 let play = () => {
-  beep.play();
+  speed_x = 3;
+  speed_y = 3;
+  ball.style.top = "100px";
+  ball.style.left = "100px";
+  playSound(beep);
   grab.class('home-menu', 0).classList.add("in-game");
   paddle.classList.replace("on-menu", "game-started");
   ball.classList.replace("on-menu", "game-started");
@@ -37,43 +41,47 @@ let play = () => {
     paddle.style.transition = "0s";
     getEms();
     let loop = window.setInterval(function() {
-      paddle.style.left = (mouse_x - (3.5 * em)) + "px";
-      ball_t = ball.style.top;
-      ball_l = ball.style.left;
-      move(direction);
-      if (isCollide(ball, paddle)) {
-        beep.play();
-        speed_x++;
-        speed_y++;
-        speed_y = speed_y / 1.1;
-        if (direction == "bottomRight") {
-          direction = "topRight";
-        } else if (direction == "bottomLeft") {
-          direction = "topLeft";
+        paddle.style.left = (mouse_x - (3.5 * em)) + "px";
+        ball_t = ball.style.top;
+        ball_l = ball.style.left;
+        move(direction);
+        if (isCollide(ball, paddle)) {
+          playSound(beep);
+          speed_x++;
+          speed_y++;
+          speed_y = speed_y / 1.1;
+          if (direction == "bottomRight") {
+            direction = "topRight";
+          } else if (direction == "bottomLeft") {
+            direction = "topLeft";
+          }
+        } else if (isCollide(ball, rightWall)) {
+          playSound(beep);
+          if (direction == "topRight") {
+            direction = "topLeft"
+          } else if (direction == "bottomRight") {
+            direction = "bottomLeft";
+          }
+        } else if (isCollide(ball, topWall)) {
+          playSound(beep);
+          if (direction == "topLeft") {
+            direction = "bottomLeft";
+          } else {
+            direction = "bottomRight";
+          }
+        } else if (isCollide(ball, leftWall)) {
+          playSound(beep);
+          if (direction == "bottomLeft") {
+            direction = "bottomRight";
+          } else if (direction == "topLeft") {
+            direction = "topRight";
+          }
+        } else if (ball_t.substring(0, ball_t.length - 2) > window.innerHeight) {
+          window.clearInterval(loop);
+          gameOver();
         }
-      } else if (isCollide(ball, rightWall)) {
-        beep.play();
-        if (direction == "topRight") {
-          direction = "topLeft"
-        } else if (direction == "bottomRight") {
-          direction = "bottomLeft";
-        }
-      } else if (isCollide(ball, topWall)) {
-        beep.play();
-        if (direction == "topLeft") {
-          direction = "bottomLeft";
-        } else {
-          direction = "bottomRight";
-        }
-      } else if (isCollide(ball, leftWall)) {
-        beep.play();
-        if (direction == "bottomLeft") {
-          direction = "bottomRight";
-        } else if (direction == "topLeft") {
-          direction = "topRight";
-        }
-      }
-    }, 20);
+      },
+      10);
   }, 1000)
 }
 
@@ -111,6 +119,34 @@ function move(dir) {
   ball_l = ball_l + "px";
   ball.style.top = ball_t;
   ball.style.left = ball_l;
+}
+
+function gameOver() {
+  ball.style.transitionDelay = "1s";
+  ball.style.transition = "0.3s";
+  paddle.style.transitionDelay = "1s";
+  paddle.style.transition = "0.3s";
+  grab.class('home-menu', 0).classList.add("in-game");
+  paddle.classList.replace("game-started", "on-menu");
+  ball.classList.replace("game-started", "on-menu");
+  leftWall.classList.replace("game-started", "on-menu");
+  topWall.classList.replace("game-started", "on-menu");
+  rightWall.classList.replace("game-started", "on-menu");
+  megalovania.pause();
+  grab.class('home-menu', 0).classList.remove("in-game");
+  window.setTimeout(function() {
+    megalovania.currentTime = 0;
+    megalovania.play();
+  }, 2000)
+}
+
+function playSound(s) {
+  if (s.paused) {
+    s.play();
+  } else {
+    s.currentTime = 0;
+    s.play();
+  }
 }
 
 function isCollide(a, b) {
