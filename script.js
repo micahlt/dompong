@@ -52,7 +52,6 @@ let play = () => {
         move(direction);
         if (isCollide(ball, paddle)) {
           playSound(beep);
-          renderScore();
           speed_x += 0.5;
           speed_y += 0.5;
           speed_y = speed_y / 1.1;
