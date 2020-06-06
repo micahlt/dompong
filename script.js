@@ -135,6 +135,7 @@ function move(dir) {
 }
 
 function gameOver() {
+  window.clearInterval(scoreInterval);
   grab.id('html').style.cursor = 'initial';
   ball.style.transitionDelay = "1s";
   ball.style.transition = "0.3s";
