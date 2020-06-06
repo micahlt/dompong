@@ -6,10 +6,14 @@ let paddle = grab.id('paddle');
 let mouse_x = 0;
 let em;
 let beep = grab.id('beep');
+let megalovania = grab.id('soundtrack');
 grab.class('large-button', 0).addEventListener('click', () => {
   play();
 });
 document.onmousemove = setMouseX;
+window.onload = () => {
+  megalovania.play();
+}
 let play = () => {
   beep.play();
   grab.class('home-menu', 0).classList.add("in-game");
