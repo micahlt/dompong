@@ -93,6 +93,39 @@ h1 {
   transition-delay: 1s;
 }
 
+#topWall {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1.4em;
+  width: 100vw;
+  background-color: #2be802;
+  transition: 0.3s;
+  transition-delay: 1s;
+}
+
+#leftWall {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 1.4em;
+  background-color: #2be802;
+  transition: 0.3s;
+  transition-delay: 1s;
+}
+
+#rightWall {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 1.4em;
+  background-color: #2be802;
+  transition: 0.3s;
+  transition-delay: 1s;
+}
+
 @keyframes fadein {
   from {
     opacity: 0;

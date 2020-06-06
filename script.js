@@ -3,7 +3,14 @@ let ball = grab.id('ball');
 let ball_t = ball.style.top;
 let ball_l = ball.style.left;
 let paddle = grab.id('paddle');
+let leftWall = grab.id('leftWall');
+let topWall = grab.id('topWall');
+let rightWall = grab.id('rightWall');
 let mouse_x = 0;
+let speed_x = 3;
+let speed_y = 3;
+let direction = "bottomRight";
+let previousDirection = null;
 let em;
 let beep = grab.id('beep');
 let megalovania = grab.id('soundtrack');
@@ -19,6 +26,9 @@ let play = () => {
   grab.class('home-menu', 0).classList.add("in-game");
   paddle.classList.replace("on-menu", "game-started");
   ball.classList.replace("on-menu", "game-started");
+  leftWall.classList.replace("on-menu", "game-started");
+  topWall.classList.replace("on-menu", "game-started");
+  rightWall.classList.replace("on-menu", "game-started");
   window.setTimeout(function() {
     // GAME LOOP
     ball.style.transitionDelay = "0s";
@@ -27,22 +37,44 @@ let play = () => {
     paddle.style.transition = "0s";
     getEms();
     let loop = window.setInterval(function() {
+      paddle.style.left = (mouse_x - (3.5 * em)) + "px";
       ball_t = ball.style.top;
       ball_l = ball.style.left;
-      ball_t = parseInt(ball_t.substring(0, ball_t.length - 2)) + 5;
-      ball_l = parseInt(ball_l.substring(0, ball_l.length - 2)) + 3;
-      ball_t = ball_t + "px";
-      ball_l = ball_l + "px";
-      ball.style.top = ball_t;
-      ball.style.left = ball_l;
-      paddle.style.left = (mouse_x - (3.5 * em)) + "px";
-      // console.log("Top: " + ball_t + " Left: " + ball_l);
+      move(direction);
       if (isCollide(ball, paddle)) {
         beep.play();
-        window.clearInterval(loop);
+        speed_x++;
+        speed_y++;
+        speed_y = speed_y / 1.1;
+        if (direction == "bottomRight") {
+          direction = "topRight";
+        } else if (direction == "bottomLeft") {
+          direction = "topLeft";
+        }
+      } else if (isCollide(ball, rightWall)) {
+        beep.play();
+        if (direction == "topRight") {
+          direction = "topLeft"
+        } else if (direction == "bottomRight") {
+          direction = "bottomLeft";
+        }
+      } else if (isCollide(ball, topWall)) {
+        beep.play();
+        if (direction == "topLeft") {
+          direction = "bottomLeft";
+        } else {
+          direction = "bottomRight";
+        }
+      } else if (isCollide(ball, leftWall)) {
+        beep.play();
+        if (direction == "bottomLeft") {
+          direction = "bottomRight";
+        } else if (direction == "topLeft") {
+          direction = "topRight";
+        }
       }
     }, 20);
-  }, 2000)
+  }, 1000)
 }
 
 function setMouseX(event) {
@@ -53,6 +85,32 @@ function getEms() {
   var div = grab.id('testDiv');
   div.style.height = '1em';
   return (em = div.offsetHeight);
+}
+
+function move(dir) {
+  if (dir == "bottomRight") {
+    ball_t = parseInt(ball_t.substring(0, ball_t.length - 2)) + speed_y;
+    ball_l = parseInt(ball_l.substring(0, ball_l.length - 2)) + speed_x;
+  } else if (dir == "topRight") {
+    ball_t = parseInt(ball_t.substring(0, ball_t.length - 2)) + -speed_y;
+    ball_l = parseInt(ball_l.substring(0, ball_l.length - 2)) + speed_x;
+  } else if (dir == "top") {
+    ball_t = parseInt(ball_t.substring(0, ball_t.length - 2)) + -speed_y;
+    ball_l = parseInt(ball_l.substring(0, ball_l.length - 2)) + -speed_x;
+  } else if (dir == "topLeft") {
+    ball_t = parseInt(ball_t.substring(0, ball_t.length - 2)) + -speed_y;
+    ball_l = parseInt(ball_l.substring(0, ball_l.length - 2)) + -speed_x;
+  } else if (dir == "bottomLeft") {
+    ball_t = parseInt(ball_t.substring(0, ball_t.length - 2)) + speed_y;
+    ball_l = parseInt(ball_l.substring(0, ball_l.length - 2)) + -speed_x;
+  } else {
+    window.clearInterval(loop);
+    alert("Looks like there's an error.");
+  }
+  ball_t = ball_t + "px";
+  ball_l = ball_l + "px";
+  ball.style.top = ball_t;
+  ball.style.left = ball_l;
 }
 
 function isCollide(a, b) {
