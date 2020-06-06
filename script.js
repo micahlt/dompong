@@ -15,6 +15,7 @@ let em;
 let beep = grab.id('beep');
 let scoreEl = grab.id('score');
 let score;
+let scoreInterval;
 let megalovania = grab.id('soundtrack');
 grab.class('large-button', 0).addEventListener('click', () => {
   play();
@@ -88,7 +89,7 @@ let play = () => {
       },
       6);
   }, 1000)
-  let scoreInterval = window.setInterval(function() {
+  scoreInterval = window.setInterval(function() {
     score++;
     renderScore();
   }, 1000)
