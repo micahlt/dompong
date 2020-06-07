@@ -156,3 +156,8 @@ h1 {
 audio {
   display: none;
 }
+
+img {
+  height: 30px;
+  width: auto;
+}
